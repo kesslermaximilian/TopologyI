@@ -1,0 +1,62 @@
+sudo: true
+dist: bionic
+language: generic
+cache: apt
+
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:jonathonf/texlive'
+    packages:
+      - wget
+      - tree
+      - texlive-latex-recommended
+      - texlive-latex-extra
+      - texlive-fonts-extra
+      - texlive-lang-german
+      - texlive-science
+      - texlive-bibtex-extra
+      - lmodern
+      - latexmk
+      - biber
+      - gnuplot
+      - make
+      
+before_install:
+  - wget 'https://packages.oth-regensburg.de/ctan/macros/latex/contrib/IEEEtran/tools/IEEEtrantools.sty'
+  - chmod +x .travis/git-info-2.sh
+  - ".travis/git-info-2.sh"
+
+env:
+    - TEXINPUTS='LatexPackagesBuild//:'
+
+script:
+    - make 2021_Topology_I-with-gnuplots
+    - make gnuplots-master
+    - touch 2021_Topology_I.gnuplots/.gitkeep
+    - touch master.gnuplots/.gitkeep
+    - mkdir gnuplots
+    - mv 2021_Topology_I.gnuplots gnuplots
+    - mv master.gnuplots gnuplots
+    - mkdir dist
+    - mv 2021_Topology_I.pdf dist/
+    - mv 2021_Topology_I.log dist/
+    - cd dist/
+    - tree -H '.' -I "index.html" -D --charset utf-8 -T "Topology I" > index.html
+
+deploy:
+    - provider: pages
+      skip-cleanup: true
+      github-token: $GITHUB_TOKEN
+      local-dir: dist/
+      keep-history: false
+      on:
+        branch: master
+    - provider: pages
+      skip-cleanup: true
+      github-token: $GITHUB_TOKEN
+      local-dir: gnuplots/
+      keep-history: false
+      target_branch: gnuplots
+      on:
+          branch: master
