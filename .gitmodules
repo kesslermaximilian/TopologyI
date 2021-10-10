@@ -1,0 +1,4 @@
+[submodule "LatexPackagesBuild"]
+	path = LatexPackagesBuild
+    url = https://github.com/kesslermaximilian/LatexPackagesBuild.git
+    branch = topology-1-build
