@@ -1,0 +1,52 @@
+\documentclass[a4paper, ngerman, fancyfoot, git]{mkessler-script}
+
+\course{Topologie I}
+\lecturer{Daniel Kasprowski}
+\assistant{Tobias Lenz}
+\author{Maximilian Keßler}
+
+\usepackage{mkessler-topo1}
+\setuptodonotes{disable}
+\restatesetup{strict=true}
+
+\begin{document}
+    \maketitle
+
+    \import{inputs/}{abstract.tex}
+
+    %Table of contents
+    \cleardoublepage
+    \tableofcontents
+
+    %List of lectures with their corresponding keywords
+    \cleardoublepage
+    \summaryoflectures
+
+    \cleardoublepage
+    % start lectures
+    % end lectures
+
+    %Start appendix
+    \cleardoublepage
+    \appendix
+    \part{Anhang}
+
+    %Exercises of the lecture
+%    \import{inputs/exercises/}{exercises.tex}
+    
+    %Explanation of environments
+%    \cleardoublepage
+%    \import{inputs/}{environments.tex}
+
+    %Index
+    \cleardoublepage
+    \printvocabindex
+
+    %Image attributions
+%    \cleardoublepage
+%    \printimageattributions
+
+    %Literature
+    \cleardoublepage
+    \printliterature
+\end{document}
