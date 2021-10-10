@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.com/kesslermaximilian/TopologyI.svg)](https://travis-ci.com/kesslermaximilian/TopologyI)
+[![Build Status](https://api.travis-ci.com/kesslermaximilian/TopologyI.svg)](https://app.travis-ci.com/github/kesslermaximilian/TopologyI)
 
 # Topology I
 
