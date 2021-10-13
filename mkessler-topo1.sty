@@ -5,7 +5,7 @@
 
 \usepackage{mkessler-hypersetup}
 \usepackage{mkessler-math}
-\usepackage[lecture numbers = true, number all = true, number small environments = theorem, oral remarks = on, show daggers = true, own environments = on]{mkessler-fancythm}
+\usepackage[lecture numbers = true, number all = true, number small environments = theorem, oral remarks = on, show daggers = true, own environments = on, default theorems = false]{mkessler-fancythm}
 \usepackage[index]{mkessler-vocab}
 \usepackage[bibfile=references/bibliography.bib, imagefile=references/images.bib]{mkessler-bibliography}
 \usepackage[fancyhead]{mkessler-lectures}
@@ -25,3 +25,40 @@
 \usepackage[left = 4cm, right = 4cm]{geometry}
 
 %\import{inputs/exercises/}{preambleBlatt.tex}
+\RequirePackage[default styles]{mkessler-thmstyle} % Easy setup of mdframed styles
+
+\endinput
+\declarebigtheorem[Satz][Theorem]{thmredmarginandfill}{theorem} \ifmkessler@fancythm@english\else\AtBeginDocument{\def\theoremautorefname{Satz}}\fi
+\declarebigtheorem{thmredmarginandfill}{proposition}
+\declarebigtheorem[Korollar]{thmredmarginandfill}{corollary}
+\declarebigtheorem{thmorangemarginandfill}{lemma}
+\declarebigtheorem[Lemma und Definition][Lemma and Definition]{thmorangemarginbluefill}{lemmadef}
+\declarebigtheorem{thmbluemarginandfill}{definition}
+\declarebigtheorem[Satz und Definition][Theorem and Definition]{thmredmarginbluefill}{theoremdef}
+\declarebigtheorem[Proposition und Definition][Proposition and Definition]{thmredmarginbluefill}{propositiondef}
+\declarebigtheorem{thmvioletmarginandfill}{notation}
+\declarebigtheorem[zuSatz][Addition to Theorem]{thmredmarginandfill}{additiontheorem}
+
+%%%Environments that are not numbered by default (notation, question, example, remark etc) have two forms:
+% - normal form: won't be numbered unless 'mkessler@fancythm@numbersmallenvironments' is set
+% - having an asterisk: will be displayed with an asterisk, will be numbered if 'numbersmallenvironments' is set
+%Notation
+
+\declaresmalltheorem[Notationsmissbrauch][Abuse of Notation]{thmvioletmargin}{abuse}
+\declaresmalltheorem[Beispiel]{thmgreenmargin}{example}
+\declaresmalltheorem[Bemerkung]{thmyellowmargin}{remark}
+\declaresmalltheorem[Lob]{thmgoldmargin}{praise}
+\declaresmalltheorem[Trivial Nonsense][Trivial Nonsense]{thmyellowmargin}{trivial}
+\declaresmalltheorem[Frage]{thmblackmarginandfill}{question}
+\declaresmalltheorem[Organisatorisches][Organisational stuff]{thmblackmargin}{orga}
+\declaresmalltheorem[Fakt]{thmredmargin}{fact}
+
+%%%% Specially treated stuff
+
+\declaresmalltheorem[\ifmkessler@fancythm@markoral Mündliche Anmerkung\else Bemerkung\fi][\ifmkessler@fancythm@markoral Oral remark\else remark\fi]{thmyellowmargin}{oral}
+% Option to remove oral remarks when needed
+\ifmkessler@fancythm@includeoral\else
+    \renewenvironment{oral}{\comment}{\endcomment}
+    \renewenvironment{oral*}{\comment}{\endcomment}
+    \renewenvironment{doral}{\comment}{\endcomment}
+\fi
