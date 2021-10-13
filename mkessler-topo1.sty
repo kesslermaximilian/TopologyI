@@ -27,7 +27,9 @@
 %\import{inputs/exercises/}{preambleBlatt.tex}
 \RequirePackage[default styles]{mkessler-thmstyle} % Easy setup of mdframed styles
 
-\endinput
+
+\RequirePackage[default styles]{mkessler-thmstyle} % Easy setup of mdframed styles
+
 \declarebigtheorem[Satz][Theorem]{thmredmarginandfill}{theorem} \ifmkessler@fancythm@english\else\AtBeginDocument{\def\theoremautorefname{Satz}}\fi
 \declarebigtheorem{thmredmarginandfill}{proposition}
 \declarebigtheorem[Korollar]{thmredmarginandfill}{corollary}
@@ -38,6 +40,8 @@
 \declarebigtheorem[Proposition und Definition][Proposition and Definition]{thmredmarginbluefill}{propositiondef}
 \declarebigtheorem{thmvioletmarginandfill}{notation}
 \declarebigtheorem[zuSatz][Addition to Theorem]{thmredmarginandfill}{additiontheorem}
+\declarebigtheorem[Beispiel]{thmgreenmargin}{example}
+\declarebigtheorem[Bemerkung]{thmyellowmargin}{remark}
 
 %%%Environments that are not numbered by default (notation, question, example, remark etc) have two forms:
 % - normal form: won't be numbered unless 'mkessler@fancythm@numbersmallenvironments' is set
@@ -45,8 +49,6 @@
 %Notation
 
 \declaresmalltheorem[Notationsmissbrauch][Abuse of Notation]{thmvioletmargin}{abuse}
-\declaresmalltheorem[Beispiel]{thmgreenmargin}{example}
-\declaresmalltheorem[Bemerkung]{thmyellowmargin}{remark}
 \declaresmalltheorem[Lob]{thmgoldmargin}{praise}
 \declaresmalltheorem[Trivial Nonsense][Trivial Nonsense]{thmyellowmargin}{trivial}
 \declaresmalltheorem[Frage]{thmblackmarginandfill}{question}
@@ -62,3 +64,49 @@
     \renewenvironment{oral*}{\comment}{\endcomment}
     \renewenvironment{doral}{\comment}{\endcomment}
 \fi
+
+
+%%%%%%%% Other mdframed style boxes
+
+\newtcolorbox{recap}{before skip = 0.5cm, after skip = 0.5cm, enhanced, sharp corners = all, colback = white, colframe = gray, toprule=0pt, bottomrule=0pt, leftrule=0pt,rightrule=0pt, overlay = {
+        \draw[gray, line width = 2pt] (frame.north west) -- ++(0.5cm, 0pt);
+        \draw[gray, line width=2pt] (frame.south east) -- ++(-0.5cm, 0pt);
+        \draw[gray, line width=2pt] (frame.north west) -- ++ (0pt, -0.5cm);
+        \draw[gray, line width=2pt] (frame.south east) -- ++(0pt, 0.5cm);
+}}
+
+\newenvironment{moral}{%
+    \begin{mdframed}[linecolor=green!70!black]%
+    \bfseries\color{green!50!black}}%
+    {\end{mdframed}}
+
+\newenvironment{antimoral}{%
+    \begin{mdframed}[linecolor=red!70!black]%
+    \bfseries\color{red!50!black}}%
+    {\end{mdframed}}
+
+
+%%%%%%%%%%%% Non-mdframed theorems
+
+\theoremstyle{plain}
+\newtheorem{variant}{\ifmkessler@fancythm@english Variant\else Variante\fi}
+\newtheorem{assumption}{\ifmkessler@fancythm@english Assumption\else Annahme\fi}
+
+\theoremstyle{definition}
+\newtheorem*{note}{\ifmkessler@fancythm@english Note\else Anmerkung\fi}
+\newtheorem*{warning}{\color{red}\ifmkessler@fancythm@english Warning \else Warnung\fi}
+\newtheorem*{goal}{\ifmkessler@fancythm@english Goal \else Ziel\fi}
+\newtheorem*{strategy}{\ifmkessler@fancythm@english Proof Strategy \else Beweisstrategie\fi}
+\newtheorem*{goal*}{\ifmkessler@fancythm@english Goal* \else Ziel*\fi}
+\newtheorem*{problem}{Problem}
+\newtheorem*{info}{Information}
+
+
+\newtheorem*{answer}{\ifmkessler@fancythm@english Answer\else Antwort\fi}
+\newtheorem{observe}[theorem]{\ifmkessler@fancythm@english Observe\else Beobachte\fi}
+\newtheorem*{property}{\ifmkessler@fancythm@english Property\else Eigenschaft\fi}
+\newtheorem*{intuition}{Intuition}
+\newtheorem*{recall}{\ifmkessler@fancythm@english Recall\else Erinnerung\fi}
+\newtheorem*{idea}{\ifmkessler@fancythm@english Idea\else Idee\fi}
+\newtheorem{exercise}{\ifmkessler@fancythm@english Exercise\else Aufgabe\fi}[section]
+\newtheorem{reminder}{\ifmkessler@fancythm@english Reminder\else Erinnerung\fi}
