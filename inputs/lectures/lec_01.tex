@@ -249,5 +249,86 @@ The \vocab{interior} of $\Delta^n$ is defined as
 \end{definition}
 
 \begin{lemma}
-    
+    If $i\leq j$, then 
+    \[
+        δ^i \circ  D^j = δ^{j+1} \circ δ^i\colon \Delta^{n-2} \to \Delta^n 
+    \]
 \end{lemma}
+\begin{proof}
+    We have
+    \[
+        (t_0,\ldots,t_{n-2}) \stackrel{δ^j}{\longrightarrow} (t_0,\ldots,t_{j-1},0,\ldots,t_j,\ldots,t_{n-2}) \stackrel{δ^i}{\longrightarrow} (t_0,\ldots,t_{i-1},0,t_i,\ldots,t_{j-1},0,t_{j},\ldots,t_{n-2})
+    \] 
+    Note that if $i=j$,  $t_i,\ldots,t_{j-1}$ expands to nothing, i.e. the two zeros will be adjacent to each other. For the other composition, we have
+    \[
+        (t_0,\ldots, t_{n-2}) \stackrel{δ^i}{\longrightarrow} (t_0,\ldots,t_{i-1},0,t_i,\ldots,t_{n-2}) \stackrel{δ^{j+1}}{\longrightarrow} (t_0,\ldots,t_{i-1},0,t_i,\ldots,t_{j-1},0,t_j,\ldots,t_{n-2})
+    \] 
+    Also for $j=i$ we have the zeros being adjacent.
+
+    Now we directly see that these are in fact the same maps.
+\end{proof}
+
+\begin{lemma}\label{lm:composition-of-boundaries-is-zero}
+   It holds $\partial_{n-1} \circ  \partial_n = 0$. 
+\end{lemma}
+\begin{proof}
+   We compute the composition:
+   \begin{IEEEeqnarray*}{rCl}
+       \partial_{n-1}(\partial_n(α)) & = & \sum_{j=0}^{n-1}\sum_{i=0}^n (-1)^{i+j}(α \circ  δ^i \circ  δ^j) \\
+                                     & = & \sum_{j=0}^{n-1} \sum_{i=0}^j (-1)^{i+j}(α \circ  δ^i \circ  δ^j) + \sum_{j=0}^{n-1}\sum_{i=j+1}^n (-1)^{i+j}(α\circ δ^i \circ δ^j) \\
+                                     & = & \sum_{j=0}^{n-1} \sum_{i=0}^{j}(-1)^{i+;}(α \circ δ^{j+1} \circ δ^i) + \sum_{i=1}^{n} \sum_{j=0}^{i-1} (-1)^{i+j}(α \circ δ^i \circ δ^j) \\
+                                     & = & \sum_{j=0}^{n-1} \sum_{i=0}^{j} (-1)^{i+j} (α \circ  δ^{j+1} \circ  δ^i) + \sum_{i=0}^{n-1} \sum_{j=0}^{i} (-1)^{i+j+1} (α \circ  δ^{i+1} \circ  δ^j) \\
+                                     & = & 0
+   \end{IEEEeqnarray*}
+\end{proof}
+\todo{reference to lemma}
+
+\begin{definition}[chain complex]\label{def:}
+    A \vocab{chain complex} $(C_{\cdot }, \partial_{\cdot })$ of $\mathbb{Z}$-modules is a sequence of abelian groups:
+    \[
+    \ldots \to C_n \stackrel{\partial_n}{\longrightarrow} C_{n-1}\stackrel{\partial_{n-1}}{\longrightarrow} C_{n-2}\to \ldots\to C_1 \stackrel{\partial_1}{\longrightarrow} C_0 \stackrel{\partial_0}{\longrightarrow} 0
+    \] 
+    such that $\partial_{n-1}\circ \partial_n = 0$ for all $n\geq 1$.
+
+    The chain complex is called \vocab{exact} if $\ker \partial_n = \im \partial_{n+1}$  for all $n$.
+\end{definition}
+\begin{remark}
+    Note that the condition $\partial_{n-1} \circ  \partial_n = 0$ just imposes the condition $\im \partial_{n+1} \subset \ker \partial_n$
+\end{remark}
+
+\begin{example}
+    Let $X$ be a  $\Delta$-complex. By \autoref{lm:composition-of-boundaries-is-zero}, $\Delta_{\cdot }(X),\partial_{\cdot })$ is a chain complex.
+\end{example}
+
+\begin{definition}[homology group]\label{def:homology-group}
+    Let $(C_{\cdot ,\partial_{\cdot }})$ be a $\Delta$-complex. We define its \vocab{$n$-th homology gorup} by
+    \[
+        H_n(C_{\cdot ,\partial_{\cdot }}) = \faktor{\ker \partial_n}{\im \partial_{n+1}}
+    \] 
+\end{definition}
+
+\begin{definition}
+    Let $X$ be a  $\Delta$-complex. We define its \vocab{$n$th homology gorup} as 
+    \[
+        H_n^{\Delta} (X) = H_n(\Delta_{\cdot }(X),\partial_{\cdot })
+    \] 
+\end{definition}
+
+\begin{example}
+Pick $S^1$ as in TODO: REF.  Then $\Delta_0 \cong \Delta_1 \cong \mathbb{Z}$ and $\Delta_n = 0$ for $n\geq 2$. As $a \circ  δ^0 = a \circ  δ^1 = v$ we have
+\[
+    \partial_1(a) = a \circ  δ^0 - a \circ  δ^1 = v - v = 0
+\] 
+Thus the corresponding chain complex is:
+\[
+\ldots \to  0 \to  0 \to  0 \to  \mathbb{Z} \stackrel{0}{\longrightarrow} \mathbb{Z} \to  0
+\] 
+and thus
+\[
+    H_n^{\Delta}(S^1) \cong \begin{cases}
+        \mathbb{Z} & n = 0,1 \\
+        0 & n\geq 2
+    \end{cases}
+\] 
+\end{example}
+\todo{reference to chain complex}
