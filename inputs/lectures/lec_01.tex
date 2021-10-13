@@ -1,4 +1,169 @@
 %! TEX root = ../../master.tex
-\lecture[]{Mo 11 Okt 2021}{Untitled}
+\lecture[]{Mi 13 Okt 2021}{Untitled}
+
+\begin{orga}
+    \begin{itemize}
+    \item All lectures will be recorded and uploaded to eCampus afterwards.
+    \item The same holds for all written lecture notes (from the iPad).
+    \item Daniel is happy if you turn on your camera, these will not be recorded
+    \item If you have questions, feel free to ask them at any time. Beware that your voice / question will be recorded
+    \item It is not yet know whether the exam at the end of the semester will be in person or online.
+    \item You can also ask questions in the chat (these will not be recorded) if you prefer so.
+    \item There is an question session on Monday, 10. You can ask questions there, but there will also be questions asked to the students that are to be solved 'live'.
+    \item On next monday, we will quickly summarize the basics of category theory
+    \item You need 50\% of the points obtainable from the exercise sheet to be admissible to the exam.
+    \item For everything taking place at the university (question session or exercise groups) you are required to fullfill the 3G rule: be vaccinnated against, recovered from or testet for the coronavirus.
+    \item If you did not attend the course on 'Geometrie und Topologie' the last semester, you can have a look at the lecture notes \cite{geotopo}. These are in german, though. You can also visit the corresponding \href{https://ecampus.uni-bonn.de/goto_ecampus_crs_2122054.html}{eCampus course} or the \href{http://www.math.uni-bonn.de/people/daniel/2021/geotopo/}{webpage}.
+    \item If you want to write a bachelor thesis in topology, during one of the lecture times in January, all the topology group members will be present and present a number of topics for a Bachelor thesis. So don't ask yet for possible topics.
+    \item Exercise sheets can be handed in groups of up to 3 people. Everyone is required to understand all the solutions
+    \end{itemize}
+\end{orga}
+
+\setcounter{section}{-1}
+\section{Motivation for this lecture}
+
+Last semester we had a look at
+\begin{itemize}
+    \item basic properties of topological spaces (e.g. Hausdorff or compact spaces)
+    \item The fundamental group of a topological space, coverings to compute it
+    \item Fundamental results we proved were:
+        \[
+            \pi_1(S^1,1)\cong \mathbb{Z} \qquad \pi_1(S^n, s_0) = 0 \qquad \forall n\geq 2
+        \] 
+\end{itemize}
+
+We aim to kind of generalize this to higher n, one can in fact define
+\[
+    \pi_n(X,x_0) = [(S^n,s_0), (X,x_0)]
+\] 
+but these are very hard to compute and do not behave as one would possibly expect from a generalization, e.g. it holds
+\[
+    \pi_3(S^2,s_0) \cong \mathbb{Z}
+\] 
+We will consider \vocab{homology} instead. Homology is much harder to define than the higher homotopy groups, but will be much easier to compute.
+
+\begin{warning}
+    We will consider $R$-modules in this course. If you are not familiar with them, just tell Daniel or ask questions at any time.
+\end{warning}
+For now, just think of modules as a sort of vector space, but over a ring $R$, not a field  $K$.
+
+At the start we will only consider $\mathbb{Z}$-modules, i.e. abelian groups.
 
 
+\section{$\Delta$-complexes \& semi-simplicial sets}
+\subsection{$\Delta$-complexes}
+
+\begin{definition}[simplex]\label{def:simplex}
+    The \vocab{$n$-simplex} is the space
+    \[
+        \Delta^n = \left \{(t_0,\ldots,t_n)\in \mathbb{R}^{n+1} \mid  \sum_{i=0}^n t_i = 1, t_i \geq  0\right\} 
+    \]
+    That is, $\Delta^n$ is the convex subspace of  $\mathbb{R}^{n+1}$ spanned by
+    \[
+        e_0 =(1,0,\ldots,0), \ldots, e_n = (0,0,\ldots,1)
+    \] 
+\end{definition}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+            \tikzstyle{point}=[circle,thick,draw=black,fill=black,inner sep=0pt,minimum width=4pt,minimum height=4pt]
+            \tikzstyle{simplexfill} = [fill = Gray!50!White, fill opacity = 0.8]
+            \node (a)[point] at (-6,0) {};
+            \node (b1)[point] at (-4,-1) {};
+            \node (b2)[point] at (-4,1) {};
+            \draw (b1) -- (b2);
+            \fill[simplexfill] (-2,-1) -- (-2,1) -- (-0.2,0) -- cycle;
+            \node (c1)[point] at (-2,-1) {};
+            \node (c2)[point] at (-2,1) {};
+            \node (c3)[point] at (-0.2,0) {};
+            \draw (c1) -- (c2) -- (c3) -- (c1);
+
+            \coordinate (d1) at (2,0);
+            \coordinate (d2) at (3,-1);
+            \coordinate (d3) at (5,0);
+            \coordinate (d4) at (3.5,2);
+            \draw[simplexfill] (d1) -- (d3) -- (d4) -- cycle;
+            \draw[simplexfill] (d1) -- (d2) -- (d3) -- cycle;
+            \draw[simplexfill] (d1) -- (d2) -- (d4) -- cycle;
+            \draw[simplexfill] (d2) -- (d3) -- (d4) -- cycle;
+            \node[point] at (d1) {};
+            \node[point] at (d2) {};
+            \node[point] at (d3) {};
+            \node[point] at (d4) {};
+    \end{tikzpicture}
+    \caption{some first simplices}
+    \label{fig:simplizes}
+\end{figure}
+
+\begin{example}
+\item $\Delta^0$ is just a point.
+\item  $\Delta^1$ is the unit interval via the embedding
+        \begin{equation*}
+        \begin{array}{c c l} 
+            \left[0,1\right] & \longrightarrow & \mathbb{R}^2 \\
+            t & \longmapsto &  te_0 + (1-t)e_1
+        \end{array}
+    \end{equation*}
+\end{example}
+\todo{number the example}
+
+\begin{definition}\label{def:face}
+    \begin{itemize}
+\item
+    For a subset $I\subset \left \{0,\ldots,n\right\} $ consider the subspace
+    \[
+        \left \{(t_0,\ldots,t_n) \in \Delta^n \mid  t_i = 0 \; \forall i \in I\right\} 
+    \] 
+    This is called a \vocab{face} of or also $(n-\abs{I} )$-face of $\Delta^n$.
+
+\item     For $0\leq i\leq n$ define
+        \begin{equation*}
+        \delta^i = \delta^{n,i}: \left| \begin{array}{c c l} 
+        \Delta^{n-1} & \longrightarrow & \Delta^n \\
+        (t_0,\ldots,t_{n-1}) & \longmapsto &  (t_0,\ldots,t_{i-1},0,t_i,\ldots,t_{n-1})
+        \end{array} \right.
+    \end{equation*}
+
+    $\delta^i$ is the \vocab{inclusion} of the $i$th face of  $\Delta^n$
+\item The \vocab{boundary} $\partial\Delta^n$ of $\Delta^n$ is the union of the highest dimensional faces, i.e.
+     \[
+         \partial\Delta^n \coloneqq  \bigcup_{i=0} ^n \im δ^i = \left \{(t_0,\ldots,t_n) \in \Delta^n \mid  \exists i\colon  t_i = 0\right\} 
+    \] 
+\item The \vocab{interior} of $\Delta^n$ is defined as
+    \[
+        {\Delta^n}\degree \coloneqq  \Delta^n \setminus \partial\Delta^n
+    \] 
+    \end{itemize}
+\end{definition}
+\begin{remark}
+    I will fix the notation of the interior soon.
+\end{remark}
+\todo{notation for the interior}
+
+\begin{definition}
+    A  \vocab{$\Delta$-complex} is a topological space $X$ together with the following structure:
+
+    For all $n\in \mathbb{N}_0$, there is a set $A_n = \left \{α\colon  \Delta^n \to  X\right\} $ such that
+    \begin{enumerate}[1)]
+        \item $\forall α\in A_n$, the restriction $α\mid _{{\Delta^n}\degree}$ is injective
+        \item $\forall x\in X$, there is a unique pair  $(n,α)$ with  $n\in \mathbb{N}_0$ and $α\in A_n$ such that $x\in α\mid _{{\Delta^n}\degree}$ 
+        \item $\forall α\in \Delta^n$ and $i\in \left \{0,\ldots,n\right\}$ we have $α \circ  \delta^i \in  A_{n-1}$.
+        \item A subset $U\subset X$ is open iff
+            \[
+                α^{-1}(U) \subset \Delta^n \text{ is open } \forall n\in \mathbb{N}_0, α\in A_n
+            \] 
+    \end{enumerate}
+\end{definition}
+
+\begin{oral}
+    The last property essentially tells us that you can recover the topology on $X$ from the sets of maps $A_n$.
+\end{oral}
+
+\begin{example}
+    Considering the torus as a quotient from $I^2$ (the unit square).
+
+    \missingfigure{Torus as a $\Delta$-complex}
+
+    Inserting a diagonal into the unit square realizes the torus as a $\Delta$-complex with two 2-simplices (namely the two triangles), three 1-simplices (the diagonal, and the two pairs of opposite sides of the square) and one 0-simplex (the corners of the square that are glued together)
+\end{example}
