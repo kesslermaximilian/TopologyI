@@ -152,14 +152,17 @@ The \vocab{interior} of $\Delta^n$ is defined as
     
 \end{definition*}
 
+\begin{remark**}
+    Note that the boundary of the 0-simplex is empty, since there are no $-1$-dimensional faces of the 0-simplex. This also means that  $\mathring{\Delta}^0 = \Delta^0$.
+\end{remark**}
 
 \begin{definition}[$\Delta$-complex]\label{def:delta-complex}
     A  \vocab{$\Delta$-complex} is a topological space $X$ together with the following structure:
 
     For all $n\in \mathbb{N}_0$, there is a set $A_n = \left \{α\colon  \Delta^n \to  X\right\} $ such that
     \begin{enumerate}[1)]
-        \item $\forall α\in A_n$, the restriction $α\mid _{\mathring{Delta}^n}$ is injective
-        \item $\forall x\in X$, there is a unique pair  $(n,α)$ with  $n\in \mathbb{N}_0$ and $α\in A_n$ such that $x\in α\mid _{\mathring{Delta}^n}$ 
+        \item $\forall α\in A_n$, the restriction $α\mid _{\mathring{\Delta}^n}$ is injective
+        \item $\forall x\in X$, there is a unique pair  $(n,α)$ with  $n\in \mathbb{N}_0$ and $α\in A_n$ such that $x\in α\mid _{\mathring{\Delta}^n}$ 
         \item $\forall α\in \Delta^n$ and $i\in \left \{0,\ldots,n\right\}$ we have $α \circ  \delta^i \in  A_{n-1}$.
         \item A subset $U\subset X$ is open iff
             \[
@@ -247,7 +250,7 @@ The \vocab{interior} of $\Delta^n$ is defined as
 \begin{lemma}\label{lm:composition-of-boundary-maps-index-swapping}
     If $i\leq j$, then 
     \[
-        δ^i \circ  D^j = δ^{j+1} \circ δ^i\colon \Delta^{n-2} \to \Delta^n 
+        δ^i \circ  δ^j = δ^{j+1} \circ δ^i\colon \Delta^{n-2} \to \Delta^n 
     \]
 \end{lemma}
 
