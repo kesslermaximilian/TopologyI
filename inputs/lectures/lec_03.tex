@@ -1,8 +1,8 @@
 %! TEX root = ../../master.tex
-\lecture[]{Mi 20 Okt 2021}{Untitled}
+\lecture[Chain maps. Pairs of spaces. Relative chain groups. Chain maps of pairs of spaces. Natural transformation $\Top^2 \to \Ab$. General homology theories and their axioms. Singular homology as a homology theory.]{Mi 20 Okt 2021}{Homology theories}
 
 \begin{definition}[Chain map]\label{def:chain-map-of-chain-complexes}
-    A \vocab{chain map} $f\colon (C_{\chainbullet}, \partial^C) \to  (D_{\chainbullet},\partial^D)$ is a sequence of maps
+    A \vocab{chain map} $f\colon (C_{\chainbullet}, \partial^C) \to  (D_{\chainbullet},\partial^D)$ is a sequence of maps (group homomorphisms)
     \[
         f_n \colon  C_n \to  D_n
     \] 
@@ -79,8 +79,12 @@ One easily checks that on the level of generators, we just get the commutative d
 
 
 \begin{ddefinition}[Pair of spaces]\label{def:pair-of-spaces}
-    A \vocab{pair of spaces} $(X,A)$ is a pair of topological spaces such that  $A\subset X$ is a subspace. This comes with a natural inclusion map $i\colon A\to X$. 
+    A \vocab{pair of spaces} $(X,A)$ is a pair of topological spaces such that  $A\subset X$ is a subspace (endowed with the subspace topology).
 \end{ddefinition}
+
+\begin{note}
+    We do not require that $A$ is open / closed / anything.
+\end{note}
 
 \begin{ddefinition}[Map of pairs]\label{def:map-of-pair-of-spaces}
     A map of a pair of spaces $f\colon (X,A) \to (Y,B)$ is a continuous map $f\colon X\to Y$ such that $f\mid _{A} (A)\subset B$, i.e. we can restrict
@@ -180,7 +184,45 @@ For all $n\in \mathbb{N}$, $H_n$ is a functor
         0 \ar{r} & C_n^{\sing}(A) \ar{r}{i_n} &  C_n^{\sing}(X) \ar{r} & C_n^{\sing}(X,A) \ar{r} & 0 \\
         0 \ar{r} & C_{n-1}^{\sing}(A) \ar{r}{i_{n-1}} &  C_{n-1}^{\sing}(X) \ar{r} & C_{n-1}^{\sing}(X,A) \ar{r} & 0
     \end{tikzcd}
+    \todo{down arrows}
+
+    The exactness of the right half follows from the definition
+    \[
+        C_n^{\sing}(X,A) \coloneqq  \faktor{C_n^{\sing}(X)}{C_n^{\sing}(A)}
+    \] 
+    and $i_n, i_{n-1}$ are injective, because $i\colon  A \to X$ is injective, so that
+    \[
+    \Delta^n \stackrel{α}{\longrightarrow} A \stackrel{i}{\longrightarrow} X = \Delta^n \stackrel{β}{\longrightarrow} A \stackrel{i}{\longrightarrow} X \qquad \iff  \qquad α = β
+    \] 
+
+    Consider $[α] \in H_n(X,A)$ with $α\in C_n^{\sing}(X)$. Then $\partial_n^{X}(α) \in \im i_{n-1}$. Let $β\in C_{n-1}^{\sing}(A)$ be a preimage. Then
+    \[
+        i_{n-2}(\partial_{n-1}^A(β)) = \partial_{n-1}^X(i_{n-1}(β)) = \partial_{n-1}(X)(\partial_n^X(α)) = 0
+    \] 
+    Thus as $i_{n-2}$ is injective, we have $\partial_{n-1}^A(β) = 0$. Then we can define the natural transformation as
+        \begin{equation*}
+        \begin{array}{c c l} 
+            H_n(X,A) & \longrightarrow & H_{n-1}(A) \\
+        \left[ α \right]  & \longmapsto &  \left[ β \right] 
+        \end{array}
+    \end{equation*}
+   We have yet to see that this definition is independent of the choice of $α$ we made. To see this, we have to see that $α$ and  $α + i_nα' + \partial_{n+1}^{X}α''$ represent have the same image. But then
+   \begin{IEEEeqnarray*}{rCl}
+       \partial_n^X(α + i_nα' + \partial_{n+1}^X α'') & = & \partial_n^X α + \underbrace{\partial_n^X i_n}_{=i_{n-1}\partial_n^A} α' + \underbrace{\partial_n^X \partial_{n+1}^X}_{=0} α'' \\
+                                                      & = & \partial_n^X α + i_{n-1}\partial_n^A α'
+   \end{IEEEeqnarray*}
+   This has preimage $β + \partial_n^A α'$, which defines the same element in $H_{n-1}(A)$, since $\partial_n^Aα'$ is just divided out so that
+   \[
+       [β] = [β + \partial_n^A α'] \in H_{n-1}(A)
+   \] 
 \end{proof}
+
+\begin{comment}
+\begin{trivial*}
+    Note that the last property used is just that injective maps of spaces are monic in $\Top$ (which is trivial). 
+\end{trivial*}
+\end{comment}
+\todo{put at correct place in notes}
 
 \begin{aside}
     A short exact sequence is an exact sequence of the form
@@ -189,3 +231,136 @@ For all $n\in \mathbb{N}$, $H_n$ is a functor
     \] 
     This means that $f$ is injective,  $g$ is surjective, and  $\ker g = \im f$.
 \end{aside}
+\todo{put at correct place in notes}
+
+\begin{definition}[Homology theory]\label{def:homology-theory}
+    A \vocab{homology theory} $H$ is a sequence of functors 
+    \[
+    H_n\colon \Top^2 \to  \Ab
+    \]
+    for all $n\in \mathbb{Z}$ together with a natural transformation
+    \[
+        H_n(X,A) \stackrel{\partial}{\longrightarrow} H_{n-1}(A) \coloneqq  H_{n-1}(A,\emptyset)
+    \] 
+    called the \vocab{comnecting} homomorphisms) such that
+    \begin{enumerate}[3)]
+        \item (\vocab{Homotopy invariance}) If $f,g\colon (X,A) \to  (X,B)$ are maps of pairs and $f\simeq g$, then  $H_n(f) = H_n(g)$.
+        \item (Long exact sequence of pairs). $\forall (X,A) \in \Top^2$, we have a long exact sequence 
+            \[
+\ldots                H_n(A) \to H_n(X) \to H_n(X,A) \stackrel{\partial}{\longrightarrow} H_{n-1}(A) \to  \ldots
+            \] 
+            (i.e. the image of one map is the kernel of the next).
+        \item (Excision) Let $A\subset B\subset X$ be subspaces such that $\overline{A}\subset \mathring{B}$. Then the inclusion
+            \[
+                (X \setminus A, B\setminus A) \to  (X,B)
+            \] 
+            induces isomorphisms on the homology, i.e.
+            \[
+  \forall n\in \mathbb{Z}\colon H_n(X \setminus A, B\setminus A) \stackrel{\simeq}{\longrightarrow}  H_n(X,B)
+            \] 
+    \end{enumerate}
+\end{definition}
+
+\begin{dremark}
+    \begin{itemize}
+        \item The maps $H_n(A) \to H_n(X) $ and $H_n(X) \to  H_n(X,A)$ are induced by the corresponding inclusions of spaces.
+        \item The long exact sequence of pairs might be infinite in both directions
+    \end{itemize}
+\end{dremark}
+
+\begin{ddefinition}[Further axioms]\label{further-axioms-of-homology-theories}
+    Consider a homology theory $H_n$. We define further properties as follows:
+    \begin{enumerate}[1)]
+        \setItemnumber{4}
+        \item (Dimension axiom) We have 
+            \[
+                H_n(\left \{\star\right\} ) \cong \begin{cases}
+                    \mathbb{Z} & n = 0 \\
+                    0 & n \neq 0
+                \end{cases}
+            \] 
+        \item (Disjoint union). Let $\left \{X_i\right\} _{i \in I}$ be a family of spaces. Then the inclusions $j_i: X_i \hookrightarrow \coprod_I X_i$ induce an isomorphism
+            \[
+                \bigoplus_{i \in I} H_n(X_i) \to  H_n\left(\coprod _{i \in I}X_i\right)
+            \] 
+            for all $n\in \mathbb{Z}$.
+ \end{enumerate}
+\end{ddefinition}
+
+\begin{oral}
+    This quite abstract machinery is not totally unmotivated: Actually, the singular homology of a space is an example of a homology theory and this is also why we denote a general homology theory by $H_n$ as well.
+\end{oral}
+
+\begin{theorem}[Singular homology theory is a homology theory]\label{thm:singular-homology-is-homology-theory}
+    Singular homology, with $H_n = 0$ for  $n<0$ is a homology theory that satisfies $4)$ and 5).
+\end{theorem}
+
+\begin{proof}
+    Later.
+\end{proof}
+
+\begin{theorem}\label{thm:homology-of-unit-sphere-for-homology-theory-with-dimension-axiom}
+    Let $H$ be a homology theory satisfying the dimension axiom. Then
+     \[
+         H_k(S^n) = \begin{cases}
+             \mathbb{Z} & k = 0,n \\
+             \mathbb{Z}^2 & n = k = 0 \\
+             0 & \text{otherwise}
+         \end{cases}
+    \] 
+\end{theorem}
+
+\begin{definition}[Reduced homology]\label{def:reduced-homology}
+    The \vocab{reduced homology} $\tilde{H}_n(X)$ of $X$ (for  $X\neq \emptyset$) is the kernel of $H_n(X) \to  H_n(\left \{\star\right\} )$. 
+\end{definition}
+
+\begin{lemma}\label{lm:reduced-homology-and-homology-relations-facts}
+    For all $X\neq \emptyset$, we have
+    \begin{enumerate}[1)]
+        \item $H_n(X) \cong \tilde{H}_n(X) \oplus H_n(\left[ \star \right] )$
+        \item $\forall x\in X$, $\tilde{H}_n(X)\cong H_n(X,\left \{\star\right\} )$
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    exercise.
+\end{proof}
+
+\begin{proof}[Proof of \autoref{thm:homology-of-unit-sphere-for-homology-theory-with-dimension-axiom} ]
+    To show
+    \[
+        \tilde{H}_k(S^n) \cong \begin{cases}
+            \mathbb{Z} & n = k \\
+            0 & \text{otherwise}
+        \end{cases}
+    \] 
+    we use induction. For $n=0$, we get that 
+    \[
+        \tilde{H}_n(S^0) \stackrel{\autoref{lm:reduced-homology-and-homology-relations-facts}}{\cong} H_n(\left \{-1,1\right\} ,\left \{1\right\} ) \stackrel{\text{excision}}{\cong} H_n(\left \{-1\right\}  ) \stackrel{\text{dim. axiom}}{\cong} \begin{cases}
+            \mathbb{Z} & n = 0 \\
+            0 & \text{otherwise}
+        \end{cases} 
+    \] 
+
+    For the induction step, cover $S^n$ by  $U\coloneqq S^n \setminus \left \{N\right\} $ and $V\coloneqq S^n\setminus \left \{S\right\} $. Then $U\simeq \star$ and 
+    \begin{IEEEeqnarray*}{rCl}
+        \tilde{H}_k(S^n) &\stackrel{\autoref{lm:reduced-homology-and-homology-relations-facts}}{\cong}& H_k(S^n , \left \{S\right\} ) \\
+                         &\stackrel{\text{Homotopy invariance}}{\cong} H_k(S^n, U) & H_k(S^n \setminus \left \{S\right\} , U\setminus \left \{S\right\} )
+    \end{IEEEeqnarray*}
+
+    Pari seg and homotopy invariance now give us a long exact sequence
+    \[
+        \ldots \to  H_k(\star) \to \tilde{H}_k(S^n) \to  H_{k-1}(S^{n-1}) \to  H_{k-1}(\star) \to  \ldots
+    \] 
+    Now $H_k(S^{n-1}) \to  H_k(\star)$ is surjetive for all $k$ and we get short exact sequences
+    \[
+        0 \to  \tilde{H}_k(S^n) \to  H_{k-1}(S^{n-1}) \to  H_{k-1}(\star) \to  0
+    \] 
+    It follows that 
+    \[
+    \tilde{H}_k(S^n) \cong \tilde{H}_{k-1}\left( S^{n-1} \right) \cong \begin{cases}
+        \mathbb{Z} & k = n \\
+        0 & \text{otherwise}
+    \end{cases}
+    \]
+\end{proof}
