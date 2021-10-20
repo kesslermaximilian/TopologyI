@@ -1,2 +1,191 @@
 %! TEX root = ../../master.tex
 \lecture[]{Mi 20 Okt 2021}{Untitled}
+
+\begin{definition}[Chain map]\label{def:chain-map-of-chain-complexes}
+    A \vocab{chain map} $f\colon (C_{\chainbullet}, \partial^C) \to  (D_{\chainbullet},\partial^D)$ is a sequence of maps
+    \[
+        f_n \colon  C_n \to  D_n
+    \] 
+    such that
+    \[
+    \begin{tikzcd}
+        C_n \ar[swap]{d}{\partial^C} \ar{r}{f_n} & D_n \ar{d}{\partial^D} \\
+        C_{n-1} \ar[swap]{r}{f_{n-1}} & D_{n-1}
+    \end{tikzcd}
+    \]
+    commutes for all $n$.
+\end{definition}
+
+\begin{lemma}\label{lm:chain-map-induces-map-of-homology}
+    A chain map $f\colon (C_{\chainbullet},\partial^C) \to  (D_{\chainbullet},\partial^D)$ induces a map
+        \begin{equation*}
+        f_{\star}: \left| \begin{array}{c c l} 
+            H_n(C_{\star},\partial^C) & \longrightarrow & H_n(D_{\star}, \partial^D) \\
+            \left[x\right] & \longmapsto &  \left[ f_n(x) \right] 
+        \end{array} \right.
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}
+    First note that if $x\in \ker \partial_n^C$, $[x]$ is its image in  $\faktor{\ker \partial_n}{\im \partial_{n+1}} = H_n$
+    Consider now the commutative diagram
+    \[
+    \begin{tikzcd}
+        C_{n+1} \ar[swap]{d}{\partial_{n+1}^C} \ar{r}{f_{n+1}} & D_{n+1} \ar{d}{\partial_{n+1}^D} \\
+        C_n \ar[swap]{r}{f_n} \ar{d}[swap]{\partial_n^C}& D_n \ar{d}{\partial_n^D}\\
+        C_{n-1} \ar{r}{f_{n-1}}& D_{n-1}
+    \end{tikzcd}
+    \]
+    Given $x\in \ker \partial_n^C$, then $\partial_n^D(f_n(x))  = f_{n-1}(\partial_n^C(x)) = f_{n-1}(0) = 0$. Thus also $f_n(x) \in \ker \partial_n^D$.
+
+    It remains to show that $f_{\star} $ is well-defined on $H_n = \faktor{\ker \partial_n^C}{\im \partial_{n+1}^C}$. A computation yields that
+    \begin{IEEEeqnarray*}{rCl}
+        f_n(x + \partial_{n+1}^C(y)) &=& f_n(x) + f_n(\partial_{n+1}^C(y)) \\
+                                     & = & f_n(x) + \underbrace{\partial_{n+1}^D(f_{n+1}(y))}_{\in \partial_{n+1}^D}
+    \end{IEEEeqnarray*}
+\end{proof}
+
+\begin{oral}
+    We now do the same proof again using a technique called \vocab{diagram chasing}. We will be doing this kind of proof quite a lot in the future.
+\end{oral}
+\todo{Add diagram chasing proof}
+
+
+\begin{lemma}\label{lm:continuous-map-of-topological-spaces-induces-chain-map-of-singular-homology}
+    A map $f\colon X \to  Y$ of topological spaces induces a chain map
+    \[
+        C_{\star}^{\sing}(X) \stackrel{f_{\star}}{\longrightarrow} C_{\star}^{\sing}(Y)
+    \] 
+    via
+    \[
+        (\Delta^n\stackrel{α}{\longrightarrow} X) \longmapsto (\Delta^n \stackrel{A}{\longrightarrow} X \stackrel{f}{\longrightarrow} Y)
+    \] 
+\end{lemma}
+
+\begin{proof}
+Note that it suffices to understand the map on generators, since the images of the generators determine the group homomorphism uniquely.
+
+Consider again the diagram
+\[
+\begin{tikzcd}
+    C_n^{\sing}(X) \ar[swap]{d}{\partial^X} \ar{r}{f_n} & C_n^{\sing}(Y) \ar{d}{\partial^Y} \\
+    C_{n-1}^{\sing}(X) \ar[swap]{r}{f_{n-1}} & C_{n-1}^{\sing}(Y)
+\end{tikzcd}
+\]
+One easily checks that on the level of generators, we just get the commutative diagram
+
+\missingfigure{commutative diagram}
+\end{proof}
+
+
+\begin{ddefinition}[Pair of spaces]\label{def:pair-of-spaces}
+    A \vocab{pair of spaces} $(X,A)$ is a pair of topological spaces such that  $A\subset X$ is a subspace. This comes with a natural inclusion map $i\colon A\to X$. 
+\end{ddefinition}
+
+\begin{ddefinition}[Map of pairs]\label{def:map-of-pair-of-spaces}
+    A map of a pair of spaces $f\colon (X,A) \to (Y,B)$ is a continuous map $f\colon X\to Y$ such that $f\mid _{A} (A)\subset B$, i.e. we can restrict
+    \[
+    f|_{A}\colon A \to  B
+    \] 
+\end{ddefinition}
+
+
+\begin{lemmadef}[Relative chain group]\label{def:relative-chain-group-pair-of-spaces}
+    Let $(X,A)$ be a pair of topological spaces. Let  $i\colon  A \to  X$ be the inclusion. Then we define the \vocab{relative chain group}  $C_n^{\sing}(X,A)$ as
+    \[
+        C_n(X,A) \coloneqq  \faktor{C_n^{\sing}(X)}{i_n(C_n^{\sing}(A)}
+    \] 
+    $\partial^X$ induces a differential $\partial^{(X,A)}$ for $C_n^{\sing}(X,A)$. The $n$th homology group of the pair  $(X,A)$ is then defined as
+     \[
+         H_n(X,A) \coloneqq  H_n(C_{\chainbullet}^{\sing}(X,A), \partial^{(X,A)})
+    \] 
+\end{lemmadef}
+
+\begin{proof}
+    Since 
+    \[
+        \partial_n^{X}(i_{\star}(\Delta^n \stackrel{α}{\longrightarrow} X)) = i_{\star}(\partial_n^A(\Delta^n \stackrel{α}{\longrightarrow} A))
+    \]
+    , $\partial^X$ induces a differential $\partial^{(X,A)}$ for $C_n^{\sing}(X,A)$. There is nothing more to proof.
+\end{proof}
+
+\begin{lemma}\label{lm:map-of-pairs-induces-chain-map}
+    A map of pairs $f\colon (X,A) \to  (Y,B)$ induces a chain map
+    \[
+        f_{\star}\colon C_{\star}^{\sing}(X,A) \to C_{\star}^{\sing}(Y,B)
+    \] 
+\end{lemma}
+
+\begin{proof}
+    Let $i\colon A\to X$ and $j\colon B \to Y$ be the inclusions of the subspaces. Let $α\in C_n^{\sing}(X)$ and $\Delta^n\stackrel{β}{\longrightarrow} A$ be a generator. We have to see that
+    \[
+        C_n^{\sing}(X,A) \stackrel{f_n}{\longrightarrow} C_n^{\sing}(Y,B)
+    \] 
+    is well-defined. But now
+    \[
+        [α] = [α + i_{\star}β] \longmapsto [f_{\star}α + \underbrace{f_{\star}i_{\star}β}_{f \circ  i \circ  β = j \circ  f \circ  β}] = [f_{\star}α]
+    \] 
+As before
+\[
+    f_{n-1}\partial^{(X,A)}[α] = [f_{\star}\partial^{X}α] \stackrel{\autoref{lm:continuous-map-of-topological-spaces-induces-chain-map-of-singular-homology}}{=} \left[ \partial^{Y}f_{\star}α \right]  = \partial^{(Y,B)}f_n\left[ α \right] 
+\] 
+\end{proof}
+
+\todo{go through proof again}
+
+\begin{dnotation}
+    We denote by $\Top^2$ the category of pairs of topological spaces.
+\end{dnotation}
+
+\begin{corollary}\label{cor:h-n-is-functor-from-pairs-of-spaces-to-abelian-groups}
+For all $n\in \mathbb{N}$, $H_n$ is a functor
+     \[
+    H_n\colon  \Top^2 \to  \Ab
+    \] 
+\end{corollary}
+
+\begin{proof}
+    Just follows from \autoref{lm:chain-map-induces-map-of-homology} and \autoref{lm:map-of-pairs-induces-chain-map} noting that $\id_{\star} = \id$ and $(f \circ  g)_{\star} = f_{\star} \circ  g_{\star}$. 
+
+    In more detail, we have 
+    \[
+        \id_n\left[ α \right] = [\id \circ  a] = [α]
+    \] 
+    and
+    \[
+        (f \circ  g)_{n}\left[ α \right] = [(f \circ  g) \circ  α] = [f \circ  (g \circ  α) ] = f_n[g \circ  α] = f_n(g_n([α]))
+    \] 
+\end{proof}
+
+\begin{remark}
+    We denote $H_n(X) \coloneqq  H_n(X,\emptyset)$. This gives the previous definition of $H_n(X)$ for a single space.
+\end{remark}
+
+\begin{lemma}\label{lm:natural-transformation-of-h-n-functors}
+    For all $n\in \mathbb{N}$, there is a natural transformation
+    \[
+        H_n(X,A) \stackrel{\partial}{\longrightarrow} H_{n-1}(A)
+    \] 
+    More precisely, this transformation is between teh functors
+    \begin{IEEEeqnarray*}{r C C C l}
+        \Top^2 & \longrightarrow &\Top^2 & \stackrel{H_{n-1}}{\longrightarrow} & \Ab \\
+        (X,A) & \longmapsto & (A,\emptyset) & \longmapsto & H_{n-1}(A)
+    \end{IEEEeqnarray*}
+\end{lemma}
+
+\begin{proof}
+    The following commutative diagram has exact rows:
+
+    \begin{tikzcd}
+        0 \ar{r} & C_n^{\sing}(A) \ar{r}{i_n} &  C_n^{\sing}(X) \ar{r} & C_n^{\sing}(X,A) \ar{r} & 0 \\
+        0 \ar{r} & C_{n-1}^{\sing}(A) \ar{r}{i_{n-1}} &  C_{n-1}^{\sing}(X) \ar{r} & C_{n-1}^{\sing}(X,A) \ar{r} & 0
+    \end{tikzcd}
+\end{proof}
+
+\begin{aside}
+    A short exact sequence is an exact sequence of the form
+    \[
+    0 \to  A \stackrel{f}{\longrightarrow} B \stackrel{g}{\longrightarrow} C \twoheadrightarrow 0
+    \] 
+    This means that $f$ is injective,  $g$ is surjective, and  $\ker g = \im f$.
+\end{aside}
