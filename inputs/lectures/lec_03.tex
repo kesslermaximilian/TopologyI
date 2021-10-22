@@ -242,8 +242,8 @@ For all $n\in \mathbb{N}$, $H_n$ is a functor
     \[
         H_n(X,A) \stackrel{\partial}{\longrightarrow} H_{n-1}(A) \coloneqq  H_{n-1}(A,\emptyset)
     \] 
-    called the \vocab{comnecting} homomorphisms) such that
-    \begin{enumerate}[3)]
+    called the \vocab{connecting} homomorphisms) such that
+    \begin{enumerate}[1)]
         \item (\vocab{Homotopy invariance}) If $f,g\colon (X,A) \to  (X,B)$ are maps of pairs and $f\simeq g$, then  $H_n(f) = H_n(g)$.
         \item (Long exact sequence of pairs). $\forall (X,A) \in \Top^2$, we have a long exact sequence 
             \[
@@ -318,7 +318,7 @@ For all $n\in \mathbb{N}$, $H_n$ is a functor
     For all $X\neq \emptyset$, we have
     \begin{enumerate}[1)]
         \item $H_n(X) \cong \tilde{H}_n(X) \oplus H_n(\left[ \star \right] )$
-        \item $\forall x\in X$, $\tilde{H}_n(X)\cong H_n(X,\left \{\star\right\} )$
+        \item $\forall x\in X$, $\tilde{H}_n(X)\cong H_n(X,\left \{x\right\} )$
     \end{enumerate}
 \end{lemma}
 
@@ -345,7 +345,7 @@ For all $n\in \mathbb{N}$, $H_n$ is a functor
     For the induction step, cover $S^n$ by  $U\coloneqq S^n \setminus \left \{N\right\} $ and $V\coloneqq S^n\setminus \left \{S\right\} $. Then $U\simeq \star$ and 
     \begin{IEEEeqnarray*}{rCl}
         \tilde{H}_k(S^n) &\stackrel{\autoref{lm:reduced-homology-and-homology-relations-facts}}{\cong}& H_k(S^n , \left \{S\right\} ) \\
-                         &\stackrel{\text{Homotopy invariance}}{\cong} H_k(S^n, U) & H_k(S^n \setminus \left \{S\right\} , U\setminus \left \{S\right\} )
+                         &\stackrel{\text{Homotopy invariance}}{\cong} H_k(S^n, U) & \stackrel{\text{excision}}{\cong} H_k(S^n \setminus \left \{S\right\} , U\setminus \left \{S\right\} )
     \end{IEEEeqnarray*}
 
     Pari seg and homotopy invariance now give us a long exact sequence
